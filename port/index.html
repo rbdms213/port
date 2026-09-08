@@ -1,0 +1,1027 @@
+<title>Figma 없이 만든 서비스</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --paper:#FCFCFD; --surface:#FFFFFF; --sunken:#F4F5F7; --deep:#14161A;
+  --ink:#14161A; --ink-2:#565C66; --ink-3:#8C939E;
+  --line:#E7E9ED; --line-2:#D6DAE0;
+  --accent:#2F6BFF; --accent-soft:#EDF2FF;
+  --art:#B1663A; --art-bg:#F8EDE5;
+  --nature:#3F7A46; --nature-bg:#E9F2EA;
+  --shadow-s:0 1px 2px rgba(20,22,26,.05);
+  --shadow:0 2px 6px rgba(20,22,26,.05), 0 16px 40px -20px rgba(20,22,26,.22);
+  --display:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+  --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+  --mono:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#101216; --surface:#181B21; --sunken:#1F232A; --deep:#0A0B0E;
+  --ink:#ECEEF2; --ink-2:#A2A9B4; --ink-3:#727A86;
+  --line:#282C34; --line-2:#363B45;
+  --accent:#6E9CFF; --accent-soft:#1A2440;
+  --art:#D49B72; --art-bg:#2E211A;
+  --nature:#7FB587; --nature-bg:#1B291D;
+  --shadow-s:0 1px 2px rgba(0,0,0,.5);
+  --shadow:0 2px 6px rgba(0,0,0,.5), 0 16px 40px -20px rgba(0,0,0,.8)}}
+:root[data-theme="dark"]{
+  --paper:#101216; --surface:#181B21; --sunken:#1F232A; --deep:#0A0B0E;
+  --ink:#ECEEF2; --ink-2:#A2A9B4; --ink-3:#727A86;
+  --line:#282C34; --line-2:#363B45;
+  --accent:#6E9CFF; --accent-soft:#1A2440;
+  --art:#D49B72; --art-bg:#2E211A;
+  --nature:#7FB587; --nature-bg:#1B291D;
+  --shadow-s:0 1px 2px rgba(0,0,0,.5);
+  --shadow:0 2px 6px rgba(0,0,0,.5), 0 16px 40px -20px rgba(0,0,0,.8)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-weight:400;font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+.col{max-width:48rem;margin:0 auto;padding:0 24px}
+.wide{max-width:66rem;margin:0 auto;padding:0 24px}
+
+/* ─── hero ─── */
+.hero{background:var(--deep);color:#F2F3F5;padding:76px 0 64px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -10% -60% 40%;height:70%;
+  background:radial-gradient(closest-side, rgba(47,107,255,.22), transparent 70%);pointer-events:none}
+.kicker{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;
+  color:#7E8794;margin:0 0 18px}
+.hero h1{font-family:var(--display);font-weight:900;font-size:clamp(32px,6.5vw,52px);
+  line-height:1.1;margin:0;text-wrap:balance;color:#FFF}
+.hero .sub{font-size:clamp(16px,2.4vw,19px);line-height:1.65;color:#B6BCC6;margin:20px 0 0;
+  font-weight:300}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:1px;
+  margin-top:44px;background:#242830;border:1px solid #242830;border-radius:12px;overflow:hidden}
+.facts div{background:var(--deep);padding:16px 18px}
+.facts dt{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;
+  color:#6E7783;margin:0 0 6px}
+.facts dd{margin:0;font-size:14px;color:#E4E7EB;font-weight:500;line-height:1.5}
+
+/* ─── section ─── */
+section{padding:74px 0 0}
+.snum{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--accent);
+  margin:0 0 10px}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(24px,4.2vw,32px);line-height:1.25;
+  margin:0 0 14px;text-wrap:balance}
+h3{font-family:var(--display);font-weight:700;font-size:19px;margin:44px 0 10px}
+h4{font-size:14px;font-weight:600;color:var(--ink-2);margin:26px 0 8px}
+p{margin:14px 0}
+p.lead{font-size:17.5px;color:var(--ink-2);font-weight:300;line-height:1.7}
+strong{font-weight:600;color:var(--ink)}
+em{font-style:normal;background:linear-gradient(transparent 62%, var(--accent-soft) 62%);
+  font-weight:500}
+ul,ol{margin:14px 0;padding-left:20px}
+li{margin:7px 0}
+li::marker{color:var(--ink-3)}
+code{font-family:var(--mono);font-size:.85em;background:var(--sunken);border:1px solid var(--line);
+  border-radius:5px;padding:1px 5px;color:var(--ink-2);white-space:nowrap}
+hr{border:none;border-top:1px solid var(--line);margin:72px 0 0}
+
+/* ─── quote / callout ─── */
+.pull{border-left:3px solid var(--accent);padding:4px 0 4px 22px;margin:28px 0;
+  font-family:var(--display);font-weight:700;font-size:21px;line-height:1.5}
+.aside{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;margin:24px 0;font-size:14.5px;color:var(--ink-2);line-height:1.7;
+  box-shadow:var(--shadow-s)}
+.aside b{display:block;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;font-weight:500}
+.prompt{background:var(--sunken);border:1px solid var(--line);border-left:2px solid var(--accent);
+  border-radius:10px;padding:15px 18px;margin:20px 0;font-size:13.5px;line-height:1.7;color:var(--ink-2)}
+.prompt b{display:block;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:8px;font-weight:500}
+
+/* ─── decision cards ─── */
+.dec{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:26px 28px;margin:18px 0;box-shadow:var(--shadow-s)}
+.dec .no{font-family:var(--mono);font-size:11.5px;color:var(--accent);font-weight:500}
+.dec h3{margin:8px 0 0;font-size:20px}
+.dec .rows{margin-top:18px;display:grid;grid-template-columns:5.2rem 1fr;gap:0 18px}
+.dec .rows dt{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;
+  color:var(--ink-3);padding-top:10px}
+.dec .rows dd{margin:0;padding:8px 0;font-size:14.5px;line-height:1.7;color:var(--ink-2);
+  border-top:1px solid var(--line)}
+.dec .rows dt:first-of-type + dd, .dec .rows dt:first-of-type{border-top:none}
+.dec .rows dt:first-of-type{padding-top:2px}
+.dec .rows dd:first-of-type{border-top:none;padding-top:0}
+@media(max-width:640px){
+  .dec{padding:22px 20px}
+  .dec .rows{grid-template-columns:1fr;gap:0}
+  .dec .rows dt{padding-top:14px;border-top:1px solid var(--line)}
+  .dec .rows dt:first-of-type{border-top:none;padding-top:2px}
+  .dec .rows dd{border-top:none;padding-top:2px}
+}
+
+/* ─── metric strip ─── */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:14px;margin:26px 0}
+.metric{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;
+  box-shadow:var(--shadow-s)}
+.metric .v{font-family:var(--display);font-weight:800;font-size:30px;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums}
+.metric .v small{font-size:16px;font-weight:700;color:var(--ink-2);margin-left:2px}
+.metric .k{font-size:13px;color:var(--ink-2);margin-top:8px;line-height:1.5}
+
+/* ─── device mockups ─── */
+.shots{margin:30px 0 0}
+.shotgrid{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  align-items:start}
+.cap{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin:12px 0 0;
+  line-height:1.6;text-align:center}
+.cap b{display:block;color:var(--ink-2);font-weight:500;font-size:12.5px;margin-bottom:3px}
+
+/* phone */
+.phone{width:100%;max-width:19rem;margin:0 auto;background:#101216;border-radius:38px;
+  padding:9px;box-shadow:var(--shadow)}
+.phone-in{position:relative;background:var(--sunken);border-radius:30px;overflow:hidden;
+  aspect-ratio:390/844}
+.phone-in::before{content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);
+  width:78px;height:22px;background:#101216;border-radius:99px;z-index:2}
+.phone-in img{width:100%;height:100%;object-fit:cover;object-position:top}
+
+/* browser */
+.browser{background:var(--surface);border:1px solid var(--line-2);border-radius:12px;
+  overflow:hidden;box-shadow:var(--shadow)}
+.bbar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--sunken);
+  border-bottom:1px solid var(--line)}
+.bdots{display:flex;gap:6px;flex:none}
+.bdots i{width:10px;height:10px;border-radius:50%;background:var(--line-2);display:block}
+.burl{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:99px;
+  padding:4px 12px;font-family:var(--mono);font-size:11px;color:var(--ink-3);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bview{position:relative;background:var(--sunken);overflow:hidden}
+.bview:not(:has(img)){aspect-ratio:16/10}
+.bview img{width:100%;height:auto;display:block}
+.plainshot{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);
+  box-shadow:var(--shadow);max-width:26rem;margin:0 auto}
+.plainshot img{width:100%;height:auto}
+.qashot{margin:14px 0 0;border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background:var(--sunken)}
+.qashot img{width:100%;height:auto;display:block}
+.qashot figcaption{font-family:var(--mono);font-size:11px;color:var(--ink-3);padding:8px 12px;
+  border-top:1px solid var(--line);background:var(--surface);line-height:1.5}
+
+/* placeholder */
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:8px;padding:20px;text-align:center;
+  background:repeating-linear-gradient(135deg,var(--sunken),var(--sunken) 10px,
+    color-mix(in srgb,var(--sunken) 92%, var(--ink-3)) 10px,
+    color-mix(in srgb,var(--sunken) 92%, var(--ink-3)) 20px)}
+.ph span{font-family:var(--mono);font-size:11px;color:var(--ink-3);background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:6px 11px;
+  line-height:1.5;max-width:100%}
+
+/* ─── before / after ─── */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:26px 0 0}
+@media(max-width:560px){.ba{grid-template-columns:1fr}}
+.balabel{display:inline-block;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;padding:3px 9px;border-radius:99px;margin-bottom:12px}
+.balabel.b{background:var(--sunken);color:var(--ink-3);border:1px solid var(--line)}
+.balabel.a{background:var(--accent-soft);color:var(--accent)}
+
+/* ─── table ─── */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface);
+  margin:22px 0;box-shadow:var(--shadow-s)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:30rem}
+th,td{text-align:left;padding:11px 16px;border-bottom:1px solid var(--line);vertical-align:top;
+  line-height:1.6}
+thead th{background:var(--sunken);font-size:11.5px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+td.mono{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);white-space:nowrap}
+
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:99px;
+  white-space:nowrap}
+.chip.art{background:var(--art-bg);color:var(--art)}
+.chip.nature{background:var(--nature-bg);color:var(--nature)}
+
+/* ─── role split ─── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;margin:24px 0;background:var(--surface)}
+@media(max-width:600px){.split{grid-template-columns:1fr}}
+.split > div{padding:22px 24px}
+.split > div + div{border-left:1px solid var(--line)}
+@media(max-width:600px){.split > div + div{border-left:none;border-top:1px solid var(--line)}}
+.split h4{margin:0 0 12px;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.split ul{margin:0;padding-left:18px;font-size:14.5px}
+.split li{margin:8px 0;color:var(--ink-2)}
+.split .me li::marker{color:var(--accent)}
+
+
+/* ─── QA cards ─── */
+.qa{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:24px 26px;margin:16px 0;box-shadow:var(--shadow-s)}
+.qa-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.qa-h .n{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);flex:none}
+.qa-h h3{margin:0;font-size:19px}
+.qa dl{margin:16px 0 0;display:grid;grid-template-columns:6.4rem 1fr;gap:0 18px}
+.qa dt{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;
+  color:var(--ink-3);padding-top:12px}
+.qa dd{margin:0;padding:10px 0;font-size:14.5px;line-height:1.72;color:var(--ink-2);
+  border-top:1px solid var(--line)}
+.qa dt:first-of-type{padding-top:2px}
+.qa dd:first-of-type{border-top:none;padding-top:0}
+.qa .why dd, .qa dd.why{background:var(--accent-soft);border-radius:8px;padding:12px 14px;
+  color:var(--ink);border-top:none;margin:6px 0}
+.qa dt.why{color:var(--accent);padding-top:16px}
+@media(max-width:640px){
+  .qa{padding:20px}
+  .qa dl{grid-template-columns:1fr}
+  .qa dt{padding-top:14px;border-top:1px solid var(--line)}
+  .qa dt:first-of-type{border-top:none}
+  .qa dt.why{border-top:none}
+  .qa dd{border-top:none;padding-top:2px}
+}
+
+/* ─── design system ─── */
+.ds-block{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:24px 26px;margin:16px 0;box-shadow:var(--shadow-s)}
+.ds-block > h4{margin:0 0 4px;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.ds-block > .t{font-family:var(--display);font-weight:700;font-size:18px;margin:0 0 16px}
+
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr));gap:10px;margin:0}
+.sw figure{margin:0}
+.sw .chipbox{height:56px;border-radius:10px;border:1px solid var(--line);margin-bottom:8px}
+.sw .nm{font-size:12.5px;font-weight:600;line-height:1.4;display:block}
+.sw .hex{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);display:block;margin-top:1px}
+.sw .use{font-size:11.5px;color:var(--ink-3);display:block;margin-top:3px;line-height:1.45}
+
+.typescale{display:flex;flex-direction:column;gap:0}
+.typescale div{display:flex;align-items:baseline;gap:16px;padding:11px 0;
+  border-bottom:1px solid var(--line);flex-wrap:wrap}
+.typescale div:last-child{border-bottom:none}
+.typescale .spec{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);
+  flex:none;width:8.5rem}
+.typescale .demo{color:var(--ink);line-height:1.3}
+
+.rulelist{margin:0;padding:0;list-style:none}
+.rulelist li{display:block;position:relative;padding:10px 0 10px 8.75rem;
+  border-bottom:1px solid var(--line);margin:0;font-size:14px;line-height:1.7;color:var(--ink-2)}
+.rulelist li:last-child{border-bottom:none}
+.rulelist li strong{color:var(--ink)}
+.rulelist b{position:absolute;left:0;top:13px;width:7.5rem;
+  font-family:var(--mono);font-size:11px;color:var(--ink-3);
+  font-weight:500;line-height:1.45}
+.rulelist code{white-space:normal;overflow-wrap:anywhere}
+@media(max-width:600px){
+  .rulelist li{padding:12px 0}
+  .rulelist b{position:static;display:block;width:auto;margin:0 0 4px}
+}
+
+.navmap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0}
+@media(max-width:640px){.navmap{grid-template-columns:1fr}}
+.navmap > div{background:var(--sunken);border-radius:12px;padding:18px 20px}
+.navmap h5{margin:0 0 12px;font-size:13.5px;font-weight:600;color:var(--ink)}
+.navstep{display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--ink-2)}
+.navstep span{padding:7px 12px;background:var(--surface);border:1px solid var(--line);
+  border-radius:8px;line-height:1.4}
+.navstep em{background:none;font-weight:400;color:var(--ink-3);font-size:11.5px;
+  text-align:center;padding:0}
+.navtabs{display:flex;flex-wrap:wrap;gap:6px}
+.navtabs span{font-size:12.5px;padding:6px 11px;background:var(--surface);border:1px solid var(--line);
+  border-radius:99px;color:var(--ink-2)}
+.navtabs span.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+
+footer{margin-top:90px;padding:34px 0 80px;border-top:1px solid var(--line)}
+footer p{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin:0;line-height:1.8}
+</style>
+
+<div class="hero">
+  <div class="col">
+    <p class="kicker">Product Design Case Study · 2026</p>
+    <h1>Figma를 열지 않고 만든 서비스</h1>
+    <p class="sub">카톡과 수기 엑셀로 흩어져 있던 웨딩홀 중개 업무가
+      이틀 만에 하나의 서비스가 되기까지 — 목업 대신 작동하는 것을 만들고,
+      직접 써보며 고친 기록.</p>
+    <dl class="facts">
+      <div><dt>역할</dt><dd>기획 · UX · UI · 구현 · 배포</dd></div>
+      <div><dt>기간</dt><dd>2일 (2026.09.07–08)</dd></div>
+      <div><dt>형태</dt><dd>실무 도구 · 운영 중</dd></div>
+      <div><dt>도구</dt><dd>Claude Code · Supabase<br>Netlify · Anthropic API</dd></div>
+    </dl>
+  </div>
+</div>
+
+<section>
+  <div class="col">
+    <p class="snum">00</p>
+    <h2>요약</h2>
+    <p class="lead">전문 예식 사회자와 웨딩홀을 연결하는 중개업이 있다.
+      매주 토·일 두 개 홀에서 10건 안팎의 예식이 돌아가고, 그 사이를 신청표·카톡·엑셀이 오간다.
+      <strong>나는 이 흐름을 관찰해 문제를 정의하고, 화면과 데이터 구조를 설계하고,
+      AI로 직접 구현해 배포했다.</strong></p>
+
+    <div class="metrics">
+      <div class="metric"><div class="v">2<small>일</small></div>
+        <div class="k">문제 정의부터 실서비스 배포까지</div></div>
+      <div class="metric"><div class="v">3<small>단계</small></div>
+        <div class="k">없앤 수작업<br>옮겨적기 · 취합 · 서식 맞추기</div></div>
+      <div class="metric"><div class="v">12<small>/12</small></div>
+        <div class="k">신청표 자동 판독 정확도<br>(2주치 실제 문서 기준)</div></div>
+      <div class="metric"><div class="v">1<small>일</small></div>
+        <div class="k">개인정보 보관 기간<br>무기한 → 예식 다음날 자동 삭제</div></div>
+    </div>
+
+    <p>결과물은 두 개의 화면이다. <strong>사회자는 카톡으로 받은 링크를 폰에서 열어</strong>
+      담당 예식의 식순을 작성하고, <strong>관리자는 신청표 이미지를 올리기만 하면</strong>
+      예식이 등록되고 웨딩홀 서식의 엑셀이 나온다.</p>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="col">
+    <p class="snum">01</p>
+    <h2>맥락 — 무엇이 오가는 일인가</h2>
+    <p>웨딩홀은 예식 2주 전에 <strong>신청표</strong>를 보낸다. 종이 표를 스캔한 PDF다.
+      한 예식이 두 줄로 되어 있고, 위가 신랑측, 아래가 신부측이다.
+      <code>주례/사회</code> 칸에 <code>신청(S/V)</code>라고 적힌 예식만 우리 건이다.</p>
+
+    <p>중개업체는 홀별로 사회자를 배정한다. 사회자는 신랑신부에게 직접 연락해 식순을 짜고,
+      그걸 회사에 전달한다. 회사는 <strong>웨딩홀과 약속된 용어로 다시 정리해</strong>
+      정해진 엑셀 서식에 담아 웨딩홀에 넘긴다.</p>
+
+    <p class="lead">이 마지막 문장이 이 프로젝트의 핵심이었다.
+      <em>같은 식순인데 부르는 이름이 세 곳에서 다르다.</em></p>
+
+    <div class="aside">
+      <b>관찰</b>
+      신랑·신부 입장 및 행진은 음원의 간주나 하이라이트를 활용한 타이밍 입장을 주로 요청한다.
+      이때 <code>노래/음원/BGM</code>, <code>입장/등장/출발</code>,
+      <code>00초에 멘트하기</code>, <code>00초 동안 멘트로 채우기</code>,
+      <code>00초 동안 노래만 나오기</code>처럼 타이밍을 요청하는 용어가
+      사회자·웨딩홀·신랑신부 세 곳에서 모두 다르다.
+      <em>사회자–웨딩홀이 먼저 용어를 정리하고,</em> 그 내용을 토대로
+      사회자–신랑신부 미팅을 진행하는 것이 효율적이라고 판단했다.
+    </div>
+
+    <h3>발견한 문제</h3>
+    <ol>
+      <li><strong>옮겨적기 오류</strong> — 신청표를 눈으로 보고 손으로 옮기다 시간·연락처가 틀린다.</li>
+      <li><strong>사회자에게 도구가 없다</strong> — 메모장과 카톡으로 식순을 관리한다.</li>
+      <li><strong>변경을 모른다</strong> — 신랑신부 요청으로 식순이 수시로 바뀌는데 회사는 알 수 없다.</li>
+      <li><strong>서식 맞추기</strong> — 셀 위치와 시트 이름을 매번 손으로 맞춘다.</li>
+      <li><strong>개인정보가 남는다</strong> — 예식이 끝나도 신랑신부 연락처가 파일과 카톡에 계속 있다.</li>
+    </ol>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="col">
+    <p class="snum">02</p>
+    <h2>접근 — AI를 어디에 쓰고, 어디에 쓰지 않았나</h2>
+    <p>이 프로젝트에서 AI는 두 자리에 있다. <strong>만드는 도구</strong>로서의 AI와,
+      <strong>제품 안의 기능</strong>으로서의 AI. 둘의 성격은 완전히 다르다.</p>
+
+    <div class="split">
+      <div class="me">
+        <h4>내가 결정한 것</h4>
+        <ul>
+          <li>무엇을 만들지, 무엇을 만들지 않을지</li>
+          <li>세 개의 언어를 잇는 용어 체계</li>
+          <li>화면 흐름과 정보 위계</li>
+          <li>AI 판독을 어디까지 믿을지</li>
+          <li>개인정보를 언제 지울지</li>
+          <li>디자인 토큰과 컴포넌트 규칙</li>
+          <li>실기기 검증과 그 결과의 해석</li>
+        </ul>
+      </div>
+      <div>
+        <h4>AI에 맡긴 것</h4>
+        <ul>
+          <li>정해진 구조대로의 코드 작성</li>
+          <li>스키마·타입·빌드 설정</li>
+          <li>내가 쓴 규칙대로의 신청표 판독</li>
+          <li>반복적인 리팩터링</li>
+          <li>테스트 스크립트 작성</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>이 구분은 원칙이라기보다 <strong>지시를 쓰는 방식</strong>이었다. 뼈대를 만들 때부터
+      무엇을 쓰지 말지, 어디서 멈출지, 무엇을 확인할지를 프롬프트에 먼저 적었다.</p>
+
+    <div class="prompt">
+      <b>프로젝트 뼈대 — 내가 쓴 지시</b>
+      “Netlify + Supabase 구성으로 뼈대를 만들어줘. Vite + React + TypeScript, 서버 로직은
+      netlify/functions 아래 TS 함수. 스타일은 CSS 변수로 직접 작성하고
+      <strong>UI 프레임워크는 쓰지 말 것</strong>, 다크모드까지 대응. …
+      <strong>아직 화면은 만들지 말고</strong> 폴더 구조·빌드 설정·netlify.toml·공용 타입까지만.
+      만들기 전에 <strong>어떤 구조로 갈지 먼저 설명하고 내 확인을 받은 뒤</strong> 진행해줘.”
+    </div>
+
+    <div class="prompt">
+      <b>DB 접근 계층 — 내가 쓴 지시</b>
+      “… 환경변수가 없으면 <strong>무슨 값이 빠졌는지 알려주는 에러</strong>를 던질 것.
+      만든 다음 확인해서 알려줘 — <strong>브라우저 번들에 service_role 키가 절대 포함되지 않는지</strong>,
+      그리고 시드 데이터로 <strong>실제 연결이 되는지</strong>.”
+    </div>
+
+    <p>Figma에서 목업을 그리는 대신 <strong>첫날에 작동하는 프로토타입을 만들어
+      실제 데이터를 넣었다.</strong> 신청표 PDF를 판독시켜 예식 12건을 등록하고,
+      그 화면으로 흐름을 검증했다. 목업이었다면 “판독이 얼마나 정확한가”,
+      “폰에서 입력하다 포커스가 튀는가” 같은 질문에 답할 수 없었다.</p>
+
+    <div class="pull">동작하는 것을 만들어 보면,
+      그림으로는 절대 보이지 않는 문제가 하루 만에 드러난다.</div>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="wide">
+    <div class="col" style="padding-left:0;padding-right:0">
+      <p class="snum">03</p>
+      <h2>설계 결정</h2>
+      <p class="lead">이 프로젝트에서 실제로 어려웠던 것은 화면을 예쁘게 만드는 일이 아니라,
+        <strong>서로 다른 세 사람의 언어를 하나의 데이터로 묶는 일</strong>이었다.</p>
+    </div>
+
+    <div class="dec">
+      <p class="no">DECISION 01</p>
+      <h3>인터페이스의 언어와 산출물의 언어를 분리한다</h3>
+      <dl class="rows">
+        <dt>문제</dt><dd>사회자가 쓰는 말, 웨딩홀 엑셀의 말, 신랑신부에게 보내는 말이 다르다.
+          기존에는 사람이 매번 변환했고, 그 지점에서 실수가 났다.</dd>
+        <dt>결정</dt><dd>식순 항목 20개를 <strong>하나의 정의 파일</strong>에 모으고,
+          각 항목이 <em>화면 표기</em>·<em>엑셀 용어</em>·<em>입력 방식</em>·<em>기본값</em>을
+          함께 갖게 했다. 화면·엑셀·카톡 문구가 모두 이 한 곳에서 나온다.</dd>
+        <dt>결과</dt><dd>입장·행진 타이밍 요청처럼 사회자·웨딩홀·신랑신부가 제각기 다르게 부르던 항목도,
+          정의 파일에서 하나를 고르면 화면·엑셀·카톡에 각 맥락의 용어로 나간다.
+          덕분에 <strong>사회자–웨딩홀이 용어를 먼저 맞추고, 그 정리를 기준으로
+          사회자–신랑신부 미팅을 진행하는</strong> 순서가 가능해졌다.
+          문구를 바꿔야 할 때 고치는 곳도 세 곳에서 한 곳이 됐다.</dd>
+      </dl>
+    </div>
+
+    <div class="dec">
+      <p class="no">DECISION 02</p>
+      <h3>AI 판독 결과는 사람의 확인 없이 저장되지 않는다</h3>
+      <dl class="rows">
+        <dt>문제</dt><dd>신청표 판독은 이 서비스에서 가장 편해지는 부분이지만,
+          동시에 <strong>틀렸을 때 가장 위험한 부분</strong>이다.
+          연락처 한 자리가 틀리면 사회자가 엉뚱한 곳에 전화한다.</dd>
+        <dt>결정</dt><dd>판독 → <strong>확인 화면</strong> → 등록의 3단계로 나눴다.
+          모든 셀을 고칠 수 있고, AI가 확신이 낮은 값은 노란색으로,
+          <em>제외한 예식도 이유와 함께</em> 보여준다.
+          “우리 건인데 빠진 것”을 잡기 위해서다.</dd>
+        <dt>결과</dt><dd>자동화의 이득은 유지하면서 책임의 위치를 사람에게 남겼다.
+          2주치 실제 신청표로 검증했을 때 12건 전부 정확했지만,
+          <strong>정확했기 때문에 확인 단계를 없앨 이유는 없다.</strong></dd>
+      </dl>
+    </div>
+
+    <div class="dec">
+      <p class="no">DECISION 03</p>
+      <h3>기존 엑셀 서식을 다시 그리지 않고, 원본을 템플릿으로 쓴다</h3>
+      <dl class="rows">
+        <dt>문제</dt><dd>웨딩홀이 받는 엑셀에는 글꼴·테두리 굵기·배경색·열 너비·병합·시트 이름 규칙이
+          이미 정해져 있다. 코드로 다시 그리면 미묘하게 계속 어긋난다.</dd>
+        <dt>결정</dt><dd>실제로 쓰던 파일에서 <strong>개인정보만 지운 빈 템플릿</strong>을 만들어
+          저장소에 넣고, 프로그램은 <em>값만 채우게</em> 했다.</dd>
+        <dt>결과</dt><dd>서식이 100% 동일하다. 받는 쪽 입장에서는 아무것도 바뀌지 않았고,
+          만드는 쪽에서만 수작업이 사라졌다.
+          <strong>변화를 상대에게 떠넘기지 않는 것</strong>이 이 결정의 요점이었다.</dd>
+      </dl>
+    </div>
+
+    <div class="dec">
+      <p class="no">DECISION 04</p>
+      <h3>개인정보는 남기지 않는 쪽이 기본값</h3>
+      <dl class="rows">
+        <dt>문제</dt><dd>신랑신부 연락처는 예식이 끝나면 필요 없다.
+          그런데 기존에는 파일과 카톡에 무기한 남아 있었다.</dd>
+        <dt>결정</dt><dd>예식 다음날 새벽에 자동 삭제한다. 자정이 아니라 <strong>새벽 4시</strong>인 이유는
+          저녁 예식이 늦게 끝나기 때문이다.
+          삭제 전에 최종 엑셀을 백업하고, 보관용 기록에는 <em>연락처 컬럼 자체를 만들지 않았다.</em>
+          엑셀 산출물에도 연락처는 들어가지 않는다.</dd>
+        <dt>결과</dt><dd>“지우는 걸 잊는다”는 실패 모드가 사라졌다.
+          사회자 링크도 홀 단위로 발급해, 담당이 아닌 홀의 연락처는
+          <strong>서버 응답에 아예 담기지 않는다.</strong></dd>
+      </dl>
+    </div>
+
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="wide">
+    <div class="col" style="padding-left:0;padding-right:0">
+      <p class="snum">04</p>
+      <h2>사회자 화면</h2>
+      <p class="lead">카톡으로 받은 링크를 폰에서 연다.
+        데스크톱을 쓰지 않고 <strong>홀 선택부터 제출까지 끝난다.</strong></p>
+      <p>핵심은 두 가지다. 첫째, <strong>기본 화면에는 ‘식순 추가’ 버튼 하나만</strong> 둔다.
+        예식마다 식순이 다르니 빈 상태에서 필요한 것만 고르게 했다.
+        둘째, <strong>반복되는 값은 미리 채워둔다.</strong>
+        개식사는 늘 ‘사회자’, 혼인서약은 늘 ‘신랑신부’다.
+        사회자는 다른 부분만 고치면 된다.</p>
+    </div>
+
+    <div class="shots">
+      <div class="shotgrid">
+        <figure style="margin:0">
+          <div class="phone"><div class="phone-in">
+            <img src="assets/01_MOBILE-01.jpg" alt="">
+          </div></div>
+          <figcaption class="cap"><b>예식 목록</b>날짜별로 묶고, 상태 배지로<br>미작성·작성중·제출완료 구분</figcaption>
+        </figure>
+        <figure style="margin:0">
+          <div class="phone"><div class="phone-in">
+            <img src="assets/02_MOBILE-02.jpg" alt="">
+          </div></div>
+          <figcaption class="cap"><b>식순 작성</b>상단에 신랑신부·연락처 고정,<br>본문은 ‘식순 추가’ 버튼 하나</figcaption>
+        </figure>
+        <figure style="margin:0">
+          <div class="phone"><div class="phone-in">
+            <img src="assets/03_MOBILE-03.jpg" alt="">
+          </div></div>
+          <figcaption class="cap"><b>식순 추가</b>표준 순서 그대로 20개,<br>다중 선택 후 한 번에 추가</figcaption>
+        </figure>
+      </div>
+
+      <div class="shotgrid" style="margin-top:26px">
+        <figure style="margin:0">
+          <div class="phone"><div class="phone-in">
+            <img src="assets/04_MOBILE-04.jpg" alt="">
+          </div></div>
+          <figcaption class="cap"><b>항목별 입력</b>입력하는 동안 엑셀에 들어갈<br>문장을 실시간으로 보여줌</figcaption>
+        </figure>
+        <figure style="margin:0">
+          <div class="phone"><div class="phone-in">
+            <img src="assets/05_MOBILE-05.jpg" alt="">
+          </div></div>
+          <figcaption class="cap"><b>순서 변경</b>입력칸을 감추고 ↑↓만,<br>하단은 ‘완료’ 하나로</figcaption>
+        </figure>
+        <figure style="margin:0">
+          <div class="phone"><div class="phone-in">
+            <img src="assets/06_MOBILE-06.jpg" alt="">
+          </div></div>
+          <figcaption class="cap"><b>복사하기</b>버튼 하나로 안내문 전체를<br>클립보드에</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <figure style="margin:34px 0 0">
+      <div class="plainshot"><img src="assets/07_KAKAO.jpg" alt=""></div>
+      <figcaption class="cap" style="max-width:34rem;margin:14px auto 0"><b>사회자가 신랑신부에게 보낸 안내문</b>
+        ‘복사하기’ 버튼 한 번으로 나온 식순 전문. 화면·엑셀·카톡 문구가 모두
+        같은 정의 파일에서 나오므로, 사회자가 따로 옮겨 적거나 표기를 맞출 일이 없다</figcaption>
+    </figure>
+
+    <div class="col" style="padding-left:0;padding-right:0">
+      <div class="aside">
+        <b>입력 방식을 항목마다 다르게</b>
+        신랑 입장은 <code>기본 입장</code>과 <code>노래 재생 후 00초 입장 멘트</code> 중 하나를 고른다.
+        축가는 곡 수와 관계·이름을 따로 받아 <code>1곡 (신랑 지인 000 님)</code>으로 조립한다.
+        모두 자유 입력으로 두면 사람마다 표기가 달라지고, 결국 회사가 다시 정리하게 된다.
+        <strong>입력 단계에서 형식을 정해두면 정리 단계가 사라진다.</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="wide">
+    <div class="col" style="padding-left:0;padding-right:0">
+      <p class="snum">05</p>
+      <h2>관리자 화면</h2>
+      <p class="lead">신청표를 올리고, 사회자를 배정하고, 변경을 확인하고, 엑셀을 내보낸다.
+        <strong>주 1회 10분이면 끝나는 흐름</strong>으로 설계했다.</p>
+      <p>여기에 <strong>사회자 링크 발급</strong>이 붙는다. 사회자에게 계정을 만들게 하지 않는 대신
+        <em>추측할 수 없는 주소를 홀 단위로 발급</em>하고, 필요하면 즉시 폐기한다.
+        아트홀 사회자에게 준 링크로는 네이처홀 예식이 <strong>화면에서 감춰지는 게 아니라
+        서버 응답에 아예 담기지 않는다.</strong>
+        가입 절차 없이 들어오게 하면서도 신랑신부 연락처는 담당자에게만 남기는 방법이었다.</p>
+    </div>
+
+    <div class="shots">
+      <figure style="margin:0">
+        <div class="browser">
+          <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
+            <div class="burl">siksun.netlify.app/admin/upload</div></div>
+          <div class="bview"><img src="assets/08_DESKTOP-01.jpg" alt=""></div>
+        </div>
+        <figcaption class="cap"><b>판독 확인</b>모든 셀을 고칠 수 있고, 확신이 낮은 값은 노란색.
+          제외된 예식도 이유와 함께 보여준다 — “우리 건인데 빠진 것”을 잡기 위해</figcaption>
+      </figure>
+
+      <div class="shotgrid" style="margin-top:26px;grid-template-columns:1fr">
+        <figure style="margin:0">
+          <div class="browser">
+            <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
+              <div class="burl">siksun.netlify.app/admin/weddings</div></div>
+            <div class="bview"><img src="assets/09_DESKTOP-02.jpg" alt=""></div>
+          </div>
+          <figcaption class="cap"><b>예식 현황</b>홀 필터와 인라인 배정. 제출된 건은 식순 뷰어로 바로 확인</figcaption>
+        </figure>
+      </div>
+
+      <div class="shotgrid" style="margin-top:26px">
+        <figure style="margin:0">
+          <div class="browser">
+            <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
+              <div class="burl">siksun.netlify.app/admin/logs</div></div>
+            <div class="bview"><img src="assets/10_DESKTOP-03.jpg" alt=""></div>
+          </div>
+          <figcaption class="cap"><b>변경 이력</b>항목별 이전값 → 새값</figcaption>
+        </figure>
+        <figure style="margin:0">
+          <div class="browser">
+            <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
+              <div class="burl">siksun.netlify.app/admin/links</div></div>
+            <div class="bview"><img src="assets/11_DESKTOP-04.jpg" alt=""></div>
+          </div>
+          <figcaption class="cap"><b>사회자 링크</b>홀 단위로 발급하고 언제든 폐기.
+            담당이 아닌 홀의 연락처는<br>서버 응답에 담기지 않는다</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="wide">
+    <div class="col" style="padding-left:0;padding-right:0">
+      <p class="snum">06</p>
+      <h2>QA — 문제 발견과 해결</h2>
+      <p class="lead">배포 직후 사회자 공유 링크를 통해 <strong>카톡 인앱 브라우저로 직접 테스트</strong>를 해봤다.</p>
+      <p>기능적인 오류 사항과, 이 화면을 사용할 사용자가 <em>조금의 불편함을 느낄 수 있을 것 같은 지점</em>들을
+        체크하여 수정했다.</p>
+    </div>
+
+    <div class="qa">
+      <div class="qa-h"><span class="n">QA 01</span><h3>제출 버튼이 배지에 가렸다</h3></div>
+      <dl>
+        <dt>관찰</dt>
+        <dd>폰으로 식순을 다 채우고 하단을 봤는데, 호스팅 무료 플랜이 우하단에 고정으로
+          붙이는 배지가 <strong>‘제출하기’ 버튼과 정확히 겹쳐</strong> 있었다.
+          데스크톱 개발자도구의 모바일 모드에서는 이 배지가 아예 렌더링되지 않는다.</dd>
+        <dt class="why">왜 문제라고 봤나</dt>
+        <dd class="why">스크롤을 조금 올리면 눌리긴 한다. 그래서 “되긴 되네”로 넘어갈 수 있다.
+          하지만 이 화면을 쓰는 사람은 <strong>예식 준비로 바쁜 사회자</strong>다.
+          작성을 다 끝내고 마지막 한 번에 누르는 버튼이 안 보인다면,
+          그 사람은 “이거 제출이 안 되는데요?”라고 연락하게 된다.
+          그 순간 이건 UI 문제가 아니라 <strong>서비스에 대한 신뢰 문제</strong>가 된다.</dd>
+        <dt>해결</dt>
+        <dd>배지를 CSS로 숨기는 방법이 제일 빨랐지만 무료 플랜 표시라 약관에 걸린다.
+          <strong>남의 규칙을 어기는 대신 내 레이아웃을 바꿨다.</strong>
+          하단 고정 바에 배지 높이만큼 여백을 줘서 버튼을 그 위로 올렸고,
+          결과적으로 엄지로 누르기도 더 편해졌다.</dd>
+      </dl>
+      <figure class="qashot">
+        <img src="assets/12_QA01.jpg" alt="">
+        <figcaption>발견 당시 화면 — ‘제출하기’ 자리에 호스팅 배지가 그대로 올라앉아 있다</figcaption>
+      </figure>
+    </div>
+
+    <div class="qa">
+      <div class="qa-h"><span class="n">QA 02</span><h3>입력할 때마다 화면이 확 커졌다</h3></div>
+      <dl>
+        <dt>관찰</dt>
+        <dd>축가 곡 수를 넣으려고 작은 입력칸을 탭하니 화면 전체가 확대됐다.
+          빠져나오면 다시 축소된다. 항목을 열 개 채우면 이 일이 열 번 반복된다.</dd>
+        <dt class="why">왜 문제라고 봤나</dt>
+        <dd class="why">모바일 웹에서 워낙 흔해서 대부분 “원래 이런 것”으로 받아들인다.
+          기능은 멀쩡하고, 버그 리포트로 올라올 일도 없다.
+          그런데 나는 이게 <strong>매 입력마다 반복되는 미세한 불쾌감</strong>이라고 봤다.
+          <strong>그 미세한 불쾌감이 정돈되지 않은 서비스에 대한 낮은 신뢰를 줄 수 있다.</strong></dd>
+        <dt>해결</dt>
+        <dd>iOS 사파리는 입력칸 글자가 16px 미만이면 자동으로 확대한다.
+          곡 수처럼 좁은 칸을 작게 잡았던 게 원인이었다.
+          <strong>모든 입력칸의 최소 글자 크기를 16px로 못박아</strong> 디자인 시스템 규칙에 넣었다.</dd>
+      </dl>
+    </div>
+
+    <div class="qa">
+      <div class="qa-h"><span class="n">QA 03</span><h3>입력하다 커서가 사라졌다</h3></div>
+      <dl>
+        <dt>관찰</dt>
+        <dd>신랑 입장에서 “노래 재생 후 __초”를 고르고 숫자를 치는데, 두 자리를 넣기 전에
+          커서가 빠졌다. 매번은 아니고 가끔이었다.</dd>
+        <dt class="why">왜 문제라고 봤나</dt>
+        <dd class="why">재현이 불규칙해서 “손이 미끄러졌나” 하고 지나치기 쉽다.
+          하지만 두 번 겪고 나서 <strong>손 문제가 아니라 구조 문제</strong>라고 판단했다.
+          라디오를 고르는 순간 화면을 통째로 다시 그리면서 입력칸이 새로 만들어지고 있었다.
+          이런 건 데스크톱에서는 마우스로 다시 클릭하면 그만이라 잘 드러나지 않는다.
+          <strong>모바일 디바이스에서만 보이는 문제</strong>였다.</dd>
+        <dt>해결</dt>
+        <dd>값이 바뀔 때 화면 전체가 아니라 해당 부분만 갱신하도록 구조를 바꿨다.
+          같은 이유로 <strong>“작성 중일 때는 외부 데이터 갱신으로 화면을 다시 그리지 않는다”</strong>는
+          규칙도 함께 정했다.</dd>
+      </dl>
+    </div>
+
+    <div class="qa">
+      <div class="qa-h"><span class="n">QA 04</span><h3>순서 변경을 드래그로 만들지 않았다</h3></div>
+      <dl>
+        <dt>관찰</dt>
+        <dd>작성된 식순의 순서 변경 요청은 <strong>잦은 수정 요청 사항 중 하나</strong>여서
+          기능이 반드시 추가되어야 했다.
+          당연히 드래그 정렬을 떠올렸는데, 시험해보니 롱프레스가 스크롤과 자꾸 충돌했다.</dd>
+        <dt class="why">왜 문제라고 봤나</dt>
+        <dd class="why">드래그는 보기에 세련되고, 데모로 보여주기도 좋다.
+          하지만 이 화면은 사회자가 신랑·신부와 통화를 하면서 작성될 수도 있고,
+          특히 주말 이동이 잦은 사회자라면 <strong>운전과 통화를 동시에 하며 작성</strong>할 수도 있기 때문에,
+          그 상황에서 잘 안 잡히는 인터랙션은 멋진 게 아니라 위험한 것이다.
+          게다가 순서를 옮기다 손이 미끄러지면 바로 아래 ‘제출하기’가 눌린다 —
+          <strong>실수의 대가가 큰 자리에 미세한 조작을 두면 안 된다.</strong></dd>
+        <dt>해결</dt>
+        <dd>드래그 대신 <strong>‘순서 변경’ 모드</strong>를 따로 만들었다.
+          이 모드에서는 입력칸과 삭제 버튼을 감추고 각 행에 ↑↓만 남긴다.
+          그리고 하단 버튼을 <strong>‘순서 변경 완료’ 하나로 바꿔</strong>
+          그 사이에는 제출 자체가 불가능하게 했다.
+          화려함을 포기하고 <strong>틀리지 않는 구조</strong>를 택했다.</dd>
+      </dl>
+    </div>
+
+    <div class="col" style="padding-left:0;padding-right:0">
+      <div class="pull">사회자분이 먼저 발견했다면,
+        그건 버그가 아니라 신뢰의 문제가 된다.</div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="wide">
+    <div class="col" style="padding-left:0;padding-right:0">
+      <p class="snum">07</p>
+      <h2>디자인 시스템</h2>
+      <p class="lead">AI로 빠르게 만든 프로토타입에는 <strong>디자인 시스템이 없다.</strong>
+        화면마다 색과 여백이 그때그때 정해지고, 기능은 다 돌아가는데 인상은 임시로 만든 것 같다.
+        기능이 완성된 뒤 <em>토큰을 정의하고 전면 적용하는 과정</em>을 따로 두었다.</p>
+      <p>먼저 무엇이 낡아 보이게 하는지부터 진단했다. 효과가 없어서가 아니었다 —
+        <strong>갈색 버튼</strong>이 화면 인상을 결정하고 있었고, <strong>점선 테두리</strong>가
+        임시로 만든 느낌을 주고 있었으며, <strong>작은 라운드와 그림자 없음</strong>이
+        요소를 종이에 그린 네모처럼 보이게 하고 있었다.
+        그리고 한글 UI에서 <strong>폰트가 시스템 기본</strong>이면 그것만으로 절반이 결정된다.</p>
+
+      <h3>세 가지 원칙</h3>
+      <ol>
+        <li><strong>색은 하나만 강하게.</strong> 포인트 색 하나를 정하고, 나머지는 중성으로.
+          의미를 가진 색(홀 구분·상태)만 예외로 둔다.</li>
+        <li><strong>효과는 이유가 있는 자리에만.</strong> 유리 효과는 콘텐츠가 그 아래로
+          지나가는 고정 영역에만 쓴다.</li>
+        <li><strong>값은 한 곳에서.</strong> 색·타이포·간격·라운드를 토큰 파일 하나에 모으고,
+          컴포넌트에는 색상 값을 직접 쓰지 않는다.</li>
+      </ol>
+    </div>
+
+    <div class="ds-block">
+      <h4>Color Token</h4>
+      <p class="t">중성 8단계 + 포인트 1 + 의미색 4</p>
+      <div class="sw">
+        <figure><div class="chipbox" style="background:#FFFFFF"></div>
+          <span class="nm">bg / surface</span><span class="hex">#FFFFFF</span>
+          <span class="use">화면 배경 · 카드</span></figure>
+        <figure><div class="chipbox" style="background:#F7F8FA"></div>
+          <span class="nm">sunken</span><span class="hex">#F7F8FA</span>
+          <span class="use">입력칸 · 고정 항목</span></figure>
+        <figure><div class="chipbox" style="background:#EDEEF0"></div>
+          <span class="nm">line</span><span class="hex">#EDEEF0</span>
+          <span class="use">구분선</span></figure>
+        <figure><div class="chipbox" style="background:#E1E4E8"></div>
+          <span class="nm">line-strong</span><span class="hex">#E1E4E8</span>
+          <span class="use">입력칸 테두리</span></figure>
+        <figure><div class="chipbox" style="background:#8B95A1"></div>
+          <span class="nm">ink-3</span><span class="hex">#8B95A1</span>
+          <span class="use">힌트 · 라벨</span></figure>
+        <figure><div class="chipbox" style="background:#4E5968"></div>
+          <span class="nm">ink-2</span><span class="hex">#4E5968</span>
+          <span class="use">보조 텍스트</span></figure>
+        <figure><div class="chipbox" style="background:#191F28"></div>
+          <span class="nm">ink</span><span class="hex">#191F28</span>
+          <span class="use">본문 · 제목</span></figure>
+        <figure><div class="chipbox" style="background:#2F6BFF"></div>
+          <span class="nm">primary</span><span class="hex">#2F6BFF</span>
+          <span class="use">주 버튼 · 선택</span></figure>
+        <figure><div class="chipbox" style="background:#EEF3FF"></div>
+          <span class="nm">primary-weak</span><span class="hex">#EEF3FF</span>
+          <span class="use">선택 배경 · 보조 버튼</span></figure>
+        <figure><div class="chipbox" style="background:#12B76A"></div>
+          <span class="nm">ok</span><span class="hex">#12B76A</span>
+          <span class="use">제출완료</span></figure>
+        <figure><div class="chipbox" style="background:#E5484D"></div>
+          <span class="nm">danger</span><span class="hex">#E5484D</span>
+          <span class="use">삭제</span></figure>
+        <figure><div class="chipbox" style="background:#B96C3C"></div>
+          <span class="nm">hall · art</span><span class="hex">#B96C3C</span>
+          <span class="use">아트홀 칩</span></figure>
+        <figure><div class="chipbox" style="background:#3F7A46"></div>
+          <span class="nm">hall · nature</span><span class="hex">#3F7A46</span>
+          <span class="use">네이처홀 칩</span></figure>
+      </div>
+      <div class="aside" style="margin-bottom:0">
+        <b>의미를 가진 색만 남긴다</b>
+        홀 색 두 개는 <strong>웨딩홀이 원래 문서에서 쓰던 색</strong>이다.
+        낡아 보이던 주범이 갈색이었지만 지우지 않았다 — 관리자와 사회자가
+        이미 그 색으로 홀을 구분하고 있기 때문이다.
+        대신 <strong>배경 8~12% 투명도의 작은 칩에만</strong> 쓰고,
+        버튼이나 넓은 면적에는 쓰지 않는다는 규칙을 함께 정했다.
+        상태색(제출완료·삭제)도 포인트 색과 분리해 두어, 색이 곧 의미가 되도록 했다.
+      </div>
+      <ul class="rulelist" style="margin-top:16px">
+        <li><b>다크 모드</b>같은 토큰 이름으로 값만 교체.
+          <code>prefers-color-scheme</code> 자동 + <code>[data-theme]</code> 수동 토글 모두 지원.</li>
+        <li><b>대비 검토</b>본문에 인접한 라벨은 <code>ink-3</code> 대신 한 단계 진한 값을 쓴다.
+          사회자 연령대를 고려한 조정.</li>
+      </ul>
+    </div>
+
+    <div class="ds-block">
+      <h4>Typography</h4>
+      <p class="t">Pretendard Variable · 6단계 스케일 · 굵기 3종</p>
+      <div class="typescale">
+        <div><span class="spec">22 / 700</span>
+          <span class="demo" style="font-size:22px;font-weight:700">김재성 ♥ 정의선</span></div>
+        <div><span class="spec">18 / 600</span>
+          <span class="demo" style="font-size:18px;font-weight:600">식순 작성</span></div>
+        <div><span class="spec">16 / 400 · 입력</span>
+          <span class="demo" style="font-size:16px">양가 어머님 기본 화촉점화</span></div>
+        <div><span class="spec">15 / 400 · 본문</span>
+          <span class="demo" style="font-size:15px">노래 재생 후 16초 입장 멘트</span></div>
+        <div><span class="spec">13 / 400 · 보조</span>
+          <span class="demo" style="font-size:13px;color:var(--ink-2)">엑셀 출력 → 1곡 (신랑 지인 000 님)</span></div>
+        <div><span class="spec">11 / 600 · 라벨</span>
+          <span class="demo" style="font-size:11px;font-weight:600;color:var(--ink-3)">제출완료 · 3차</span></div>
+      </div>
+      <ul class="rulelist" style="margin-top:16px">
+        <li><b>서체</b>한글 UI는 폰트 하나로 절반이 결정된다. Pretendard Variable을 CDN으로,
+          폴백은 <code>-apple-system</code> 계열.</li>
+        <li><b>굵기</b>400 · 600 · 700 세 가지만. 500이나 800을 섞으면 위계가 흐려진다.</li>
+        <li><b>숫자</b>시간·연락처·곡 수는 <code>tabular-nums</code>.
+          목록에서 자릿수가 흔들리지 않는다.</li>
+        <li><b>단위</b>모두 <code>rem</code> 기준. 사용자가 시스템 글자를 키우면 같이 반응한다.</li>
+        <li><b>최소값</b>입력칸은 항상 16px 이상 — QA 02에서 나온 규칙.</li>
+      </ul>
+    </div>
+
+    <div class="ds-block">
+      <h4>Shape · Space · Motion</h4>
+      <p class="t">4의 배수, 라운드 3단계, 그림자는 거의 없이</p>
+      <ul class="rulelist">
+        <li><b>라운드</b>카드 16 · 입력칸과 버튼 12 · 칩 999. 세 단계 외에는 쓰지 않는다.</li>
+        <li><b>그림자</b><code>0 1px 2px</code> + <code>0 4px 12px</code> 두 겹, 투명도 4%.
+          떠 있는 느낌이 아니라 <strong>종이 한 장 차이</strong>만.</li>
+        <li><b>테두리</b>1px 실선. <strong>점선은 전면 금지</strong> — 임시로 만든 인상을 준다.</li>
+        <li><b>간격</b>카드 안 16~20 · 섹션 사이 24 · 요소 사이 8~12. 4의 배수만.</li>
+        <li><b>터치</b>누를 수 있는 요소는 최소 48px.</li>
+        <li><b>모션</b>누를 때 <code>scale(.98)</code>, 150ms ease-out.
+          <code>transform</code>·<code>opacity</code>만 애니메이션하고
+          <code>prefers-reduced-motion</code>을 존중한다.</li>
+        <li><b>유리 효과</b>상단 헤더와 하단 고정 바에만.
+          <code>rgba(255,255,255,.72)</code> + <code>blur(20px) saturate(180%)</code>,
+          미지원 환경을 위한 불투명 폴백 필수. <strong>카드·입력칸에는 금지.</strong></li>
+      </ul>
+      <div class="aside" style="margin-bottom:0">
+        <b>유행을 그대로 가져오지 않기</b>
+        처음 목표는 “토스 같은 느낌 + 글래스모피즘”이었다.
+        그런데 토스는 유리 효과를 쓰지 않는다 — 오히려 극도로 평평하고 깨끗하다.
+        유리는 배경에 사진이나 그라디언트가 있어야 살아나는 표현인데,
+        이 화면은 <strong>폼을 채우는 업무 도구</strong>라 배경이 없다.
+        거기에 유리를 씌우면 뿌옇고 읽기만 어려워진다.
+        그래서 <strong>콘텐츠가 아래로 지나가는 두 자리에만</strong> 남겼다.
+      </div>
+    </div>
+
+    <div class="ds-block">
+      <h4>Navigation</h4>
+      <p class="t">사회자는 한 줄기, 관리자는 나란한 탭</p>
+      <div class="navmap">
+        <div>
+          <h5>사회자 · 선형 3단계</h5>
+          <div class="navstep">
+            <span>홀 선택 <em style="float:right">토큰이 단일 홀이면 생략</em></span>
+            <em>↓</em>
+            <span>예식 시간 선택</span>
+            <em>↓</em>
+            <span>식순 작성 · 제출</span>
+          </div>
+          <p style="font-size:13px;color:var(--ink-2);margin:14px 0 0;line-height:1.7">
+            되돌아가기는 <strong>상단 좌측 하나</strong>로만. 하단은 오직 행동을 위한 자리다.
+            길을 잃을 수 없게 갈래를 만들지 않았다.</p>
+        </div>
+        <div>
+          <h5>관리자 · 상단 탭 5개</h5>
+          <div class="navtabs">
+            <span class="on">예식 현황</span><span>신청표 업로드</span><span>업로드 이력</span>
+            <span>변경 이력</span><span>사회자 링크</span>
+          </div>
+          <p style="font-size:13px;color:var(--ink-2);margin:14px 0 0;line-height:1.7">
+            주 1회 쓰는 화면이라 <strong>기억이 아니라 눈으로 찾게</strong> 했다.
+            기본 진입은 가장 자주 보는 ‘예식 현황’.</p>
+        </div>
+      </div>
+      <ul class="rulelist" style="margin-top:18px">
+        <li><b>하단 바</b>지금 무엇을 할 수 있는지를 말하는 자리.
+          평소에는 <code>복사하기</code>·<code>제출하기</code>,
+          순서 변경 중에는 <code>순서 변경 완료</code> 하나로 바뀐다.
+          <strong>모드가 바뀌었다는 사실을 하단 바가 알려준다.</strong></li>
+        <li><b>상단 고정</b>식순 작성 화면에서는 신랑신부 이름과 연락처가 항상 보인다.
+          누구 예식을 쓰고 있는지 잊지 않도록.</li>
+        <li><b>상태 표기</b>목록의 배지 세 가지 —
+          <code>미작성</code> · <code>작성중</code> · <code>제출완료 · N차</code>.
+          색과 글자를 함께 써서 색만으로 판단하지 않게 했다.</li>
+      </ul>
+    </div>
+
+    <div class="col" style="padding-left:0;padding-right:0">
+      <h3>적용 전후</h3>
+      <p>같은 화면, 같은 기능이다. 토큰을 정의하고 전면 적용한 것 외에 바뀐 것은 없다.</p>
+    </div>
+
+    <div class="ba">
+      <figure style="margin:0">
+        <span class="balabel b">Before · 프로토타입</span>
+        <div class="phone"><div class="phone-in">
+          <img src="assets/13_BEFORE.jpg" alt="">
+        </div></div>
+      </figure>
+      <figure style="margin:0">
+        <span class="balabel a">After · 디자인 시스템 적용</span>
+        <div class="phone"><div class="phone-in">
+          <img src="assets/14_AFTER.jpg" alt="">
+        </div></div>
+      </figure>
+    </div>
+
+    <div class="col" style="padding-left:0;padding-right:0">
+      <div class="aside">
+        <b>시스템으로 만든 이유</b>
+        토큰 파일 하나에 모아두면 <strong>포인트 색을 바꾸는 데 한 줄이면 된다.</strong>
+        “파란색이 웨딩과 안 어울리는데”라는 이야기가 나와도
+        딥 플럼이나 딥 그린으로 5초 만에 바꿔 비교해볼 수 있다.
+        빠르게 만들고 빠르게 고치는 방식에서는,
+        <strong>고치는 비용을 미리 낮춰두는 것</strong>이 시스템의 목적이다.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="col">
+    <p class="snum">08</p>
+    <h2>결과와 회고</h2>
+
+    <h3>바뀐 것</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th></th><th>이전</th><th>이후</th></tr></thead>
+        <tbody>
+          <tr><td><strong>신청표 등록</strong></td><td>눈으로 보고 손으로 옮겨 적기</td>
+            <td>업로드 → 확인 → 등록</td></tr>
+          <tr><td><strong>식순 작성</strong></td><td>사회자 개인 메모장·카톡</td>
+            <td>폰에서 항목 선택식 작성</td></tr>
+          <tr><td><strong>신랑신부 공유</strong></td><td>사회자가 직접 정리해 작성</td>
+            <td>‘복사하기’ 한 번</td></tr>
+          <tr><td><strong>변경 파악</strong></td><td>알 수 없음</td>
+            <td>바뀐 항목만 모아 메일</td></tr>
+          <tr><td><strong>엑셀 작성</strong></td><td>용어 변환 + 서식 맞추기 수작업</td>
+            <td>내려받기</td></tr>
+          <tr><td><strong>개인정보</strong></td><td>파일·카톡에 무기한</td>
+            <td>예식 다음날 자동 삭제</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>배운 것</h3>
+    <p><strong>가장 오래 걸린 일은 코드가 아니라 용어를 맞추는 일이었다.</strong>
+      신청표의 표기 규칙, 식순 항목의 세 가지 이름, 엑셀 셀의 정확한 위치.
+      이걸 정리하고 나니 구현은 오히려 빨랐다.
+      결국 <em>제품 설계의 대부분은 데이터 구조를 정하는 일</em>이었다.</p>
+
+    <p><strong>AI로 빨리 만들 수 있게 되면서, 무엇을 만들지 정하는 일의 비중이 커졌다.</strong>
+      구현이 병목일 때는 “되는 것”만 해도 됐지만, 이틀이면 만들어지는 상황에서는
+      “왜 이렇게 만드는가”를 설명할 수 있어야 한다.
+      이 프로젝트에서 내가 실제로 한 일의 대부분은 그 판단이었다.</p>
+
+    <p><strong>그리고 만든 사람이 직접 써봐야 한다.</strong>
+      제출 버튼이 배지에 가려진 것, 입력할 때마다 화면이 확대되던 것, 순서를 바꾸다
+      제출이 눌릴 뻔한 것 — 전부 폰을 손에 들고서야 보였다.
+      기능 명세에는 “정상”이라고 적혔을 것들이다.</p>
+
+    <h3>다음</h3>
+    <ul>
+      <li>사회자 여러 명이 실제로 쓰면서 나오는 요청을 반영</li>
+      <li>자동 삭제·알림이 조용히 실패했을 때 알아차릴 수 있는 장치</li>
+      <li>운영 매뉴얼 — 다른 사람이 이어받을 수 있도록</li>
+      <li>디자인 시스템 문서를 저장소 안으로 — 화면을 고칠 때마다 같은 기준을 참조하도록</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="col">
+    <p>Figma를 열지 않고 만든 서비스 · 프로덕트 디자인 케이스 스터디<br>
+      기획 · UX · UI · 구현 · 배포 — 2026.09</p>
+  </div>
+</footer>
